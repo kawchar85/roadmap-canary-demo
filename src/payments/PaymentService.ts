@@ -1,4 +1,4 @@
-import type { PaymentProvider } from "./PaymentProvider.js";
+import { StripeProvider } from "./providers/StripeProvider.js";
 import type {
   ChargeRequest,
   ChargeResult,
@@ -7,13 +7,14 @@ import type {
 } from "./types.js";
 
 /**
- * Application-facing payment facade.
- *
- * Product code talks to this service. Vendor-specific details remain behind
- * the PaymentProvider boundary.
+ * Application-facing payment facade specialized around the current provider.
  */
 export class PaymentService {
-  constructor(private readonly provider: PaymentProvider) {}
+  constructor(private readonly provider: StripeProvider) {
+    if (provider.name !== "stripe") {
+      throw new Error("PaymentService requires the Stripe provider");
+    }
+  }
 
   charge(request: ChargeRequest): Promise<ChargeResult> {
     return this.provider.charge(request);

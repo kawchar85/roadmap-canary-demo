@@ -6,14 +6,10 @@ import type {
   RefundResult,
 } from "../types.js";
 
-/**
- * Small deterministic stand-in for the production Stripe adapter.
- *
- * The demo intentionally avoids external network calls so the architectural
- * boundary can be tested deterministically in CI.
- */
+/** Deterministic stand-in for the current production Stripe adapter. */
 export class StripeProvider implements PaymentProvider {
-  readonly name = "stripe";
+  readonly name = "stripe" as const;
+  readonly stripeAccountId = "acct_demo_primary";
 
   async charge(request: ChargeRequest): Promise<ChargeResult> {
     if (request.amountCents <= 0) {
