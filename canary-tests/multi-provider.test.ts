@@ -23,6 +23,7 @@ describe("accepted future capability: multiple payment providers", () => {
 
     expect(receipt.paymentProvider).toBe(futureProviderName);
     expect(receipt.paymentTransactionId).toContain("future-order");
+    expect(receipt.paymentTransactionId.startsWith("stripe_")).toBe(false);
   });
 
   it("keeps refunds on the real vendor-neutral service path", async () => {
