@@ -1,6 +1,6 @@
 node_modules/
 dist/
 coverage/
-.roadmap-canary/
+.roadmap-canary/runs/
 .env
 .DS_Store
