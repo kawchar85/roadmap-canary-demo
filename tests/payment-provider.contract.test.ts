@@ -10,7 +10,7 @@ function paymentProviderContract(
   describe(`${providerName} payment-provider contract`, () => {
     it("charges through the common provider contract", async () => {
       const provider = createProvider();
-      const result = await provider.charge({
+      const result = await provider.executeCharge({
         orderId: "order-100",
         amountCents: 2500,
         currency: "USD",
@@ -23,7 +23,7 @@ function paymentProviderContract(
 
     it("refunds through the common provider contract", async () => {
       const provider = createProvider();
-      const result = await provider.refund({
+      const result = await provider.executeRefund({
         transactionId: "tx-100",
         amountCents: 1000,
       });

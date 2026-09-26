@@ -6,20 +6,15 @@ import type {
   RefundResult,
 } from "./types.js";
 
-/**
- * Application-facing payment facade.
- *
- * Product code talks to this service. Vendor-specific details remain behind
- * the PaymentProvider boundary.
- */
+/** Application-facing payment facade over the vendor-neutral provider boundary. */
 export class PaymentService {
   constructor(private readonly provider: PaymentProvider) {}
 
   charge(request: ChargeRequest): Promise<ChargeResult> {
-    return this.provider.charge(request);
+    return this.provider.executeCharge(request);
   }
 
   refund(request: RefundRequest): Promise<RefundResult> {
-    return this.provider.refund(request);
+    return this.provider.executeRefund(request);
   }
 }
