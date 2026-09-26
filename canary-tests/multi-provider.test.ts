@@ -2,10 +2,16 @@ import { describe, expect, it } from "vitest";
 
 import { CheckoutService } from "../src/checkout/CheckoutService.js";
 import { RefundService } from "../src/refunds/RefundService.js";
+import { paymentProviderContract } from "../tests/payment-provider.contract.test.js";
 import {
+  createFuturePaymentProvider,
   createFuturePaymentService,
   futureProviderName,
 } from "../canary/future-payment-proof.js";
+
+// The future adapter must satisfy the same executable contract as the current
+// production adapter. This is human-owned Canary evidence, not witness code.
+paymentProviderContract(futureProviderName, createFuturePaymentProvider);
 
 describe("accepted future capability: multiple payment providers", () => {
   it("uses a provider distinct from the current Stripe adapter", () => {
