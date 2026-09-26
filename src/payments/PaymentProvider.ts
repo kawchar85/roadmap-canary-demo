@@ -8,12 +8,12 @@ import type {
 /**
  * Vendor-neutral payment boundary used by the product.
  *
- * The current product ships with Stripe only, but checkout and refund flows
- * deliberately depend on this contract rather than a vendor implementation.
+ * The refactor standardizes provider operations around explicit execution
+ * methods without changing the capability represented by this boundary.
  */
 export interface PaymentProvider {
   readonly name: string;
 
-  charge(request: ChargeRequest): Promise<ChargeResult>;
-  refund(request: RefundRequest): Promise<RefundResult>;
+  executeCharge(request: ChargeRequest): Promise<ChargeResult>;
+  executeRefund(request: RefundRequest): Promise<RefundResult>;
 }
