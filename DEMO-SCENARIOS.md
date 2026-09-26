@@ -13,6 +13,8 @@ Current behavior:
 
 The accepted future capability is GitHub Issue #1: support at least two interchangeable payment providers without coupling checkout/refund business logic to a vendor.
 
+The trusted Canary for that commitment is checked into `.roadmap-canary/issue-1/`. The contract and verified witness travel with the repository so a fresh clone, CI job, or teammate can evaluate the same future capability. Only run evidence under `.roadmap-canary/runs/` is ignored.
+
 ## Canary witness: `canary/multi-provider-witness`
 
 This ref is **not a product feature branch**. It is a disposable Minimum Viable Proof.
@@ -25,7 +27,7 @@ It adds a deterministic second adapter (`CanaryPayProvider`) and proof wiring th
 4. refunds use the same vendor-neutral path;
 5. existing Stripe behavior remains green.
 
-Roadmap Canary captures the diff from `main` to this ref as `witness.patch`, replays it on a clean BASE worktree, runs the approved verification commands, and stores the verified patch as evidence. The witness ref itself is never merged into production.
+Roadmap Canary captures the proof as `witness.patch`, replays it on a clean BASE worktree, runs the approved verification commands, and stores the verified patch as Canary evidence. The witness ref itself is never merged into production.
 
 ## Scenario A: `demo/path-changed-safe`
 
@@ -94,16 +96,7 @@ git fetch origin \
   +refs/heads/demo/roadmap-risk:refs/remotes/origin/demo/roadmap-risk
 ```
 
-Capture the disposable witness:
-
-```bash
-roadmap-canary capture \
-  --repo . \
-  --contract ../roadmap-canary/examples/issue-1/contract.yaml \
-  --base main \
-  --witness origin/canary/multi-provider-witness \
-  --output .roadmap-canary/issue-1
-```
+The committed Canary is already available at `.roadmap-canary/issue-1`; no capture step is required for normal demo runs.
 
 Run Scenario A:
 
@@ -133,4 +126,4 @@ roadmap-canary check \
   --output-dir .roadmap-canary/runs/roadmap-risk
 ```
 
-The `.roadmap-canary/` directory is runtime evidence and is intentionally ignored by Git.
+If the approved Future Contract or witness intentionally changes, regenerate and review the Canary artifact before committing the replacement. Runtime results remain local under `.roadmap-canary/runs/`.
