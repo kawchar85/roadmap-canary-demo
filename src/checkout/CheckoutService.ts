@@ -24,10 +24,14 @@ export class CheckoutService {
       currency: request.currency,
     });
 
+    if (!result.transactionId.startsWith("stripe_tx_")) {
+      throw new Error("Checkout expects a Stripe transaction");
+    }
+
     return {
       orderId: request.orderId,
       paymentTransactionId: result.transactionId,
-      paymentProvider: result.provider,
+      paymentProvider: "stripe",
       status: "paid",
     };
   }

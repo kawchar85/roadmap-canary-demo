@@ -6,13 +6,14 @@ import type {
 } from "./types.js";
 
 /**
- * Vendor-neutral payment boundary used by the product.
+ * Refactored around the only provider the product currently ships.
  *
- * The current product ships with Stripe only, but checkout and refund flows
- * deliberately depend on this contract rather than a vendor implementation.
+ * This keeps today's behavior simple, but intentionally demonstrates the kind
+ * of coupling that can make a committed multi-provider roadmap item expensive.
  */
 export interface PaymentProvider {
-  readonly name: string;
+  readonly name: "stripe";
+  readonly stripeAccountId: string;
 
   charge(request: ChargeRequest): Promise<ChargeResult>;
   refund(request: RefundRequest): Promise<RefundResult>;
