@@ -1,0 +1,64 @@
+name: Public Demo Final Polish
+
+on:
+  push:
+    branches: [public-demo-final-polish]
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: public-demo-final-polish
+      - name: Apply final public demo polish
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('docs/index.html')
+          s = p.read_text()
+          replacements = {
+              'main { padding: 42px 0 64px; }': 'main { padding: 30px 0 56px; }',
+              'gap: 42px;\n      align-items: end;\n      padding-bottom: 34px;': 'gap: 32px;\n      align-items: end;\n      padding-bottom: 26px;',
+              'font-size: clamp(38px, 6vw, 70px);': 'font-size: clamp(36px, 5vw, 60px);',
+              'margin: 0 0 18px;\n      max-width: 800px;': 'margin: 0 0 14px;\n      max-width: 800px;',
+              'font-size: clamp(17px, 2vw, 21px);': 'font-size: clamp(16px, 1.7vw, 19px);',
+              'margin-top: 32px;\n      display: grid;': 'margin-top: 26px;\n      display: grid;',
+              '.step.fail .step-dot {\n      border-color: #e0aaaa;\n      background: var(--bad-bg);\n      color: var(--bad);\n    }': '.step.warn .step-dot {\n      border-color: #d7bd7e;\n      background: var(--warn-bg);\n      color: var(--warn);\n    }\n\n    .step.fail .step-dot {\n      border-color: #e0aaaa;\n      background: var(--bad-bg);\n      color: var(--bad);\n    }',
+              '.step.pass .step-status { color: var(--good); }\n    .step.fail .step-status { color: var(--bad); }': '.step.pass .step-status { color: var(--good); }\n    .step.warn .step-status { color: var(--warn); }\n    .step.fail .step-status { color: var(--bad); }',
+              '<strong>Recorded demo</strong><br />\n        These are recorded, verified Roadmap Canary runs. No credentials or IBM Bob API key are required to inspect the evidence.': '<strong>Verified replay</strong><br />\n        This page replays saved, verified Roadmap Canary runs. No credentials or IBM Bob API key are required.',
+              'aria-label="Recorded Roadmap Canary demo"': 'aria-label="Roadmap Canary demo"',
+              '<div class="section-label">Recorded scenarios</div>': '<div class="section-label">Scenarios</div>',
+              '<button class="run-btn" id="run-btn">Run recorded analysis</button>': '<button class="run-btn" id="run-btn">Replay analysis</button>',
+              '<div class="disclosure"><strong>Recorded verified run:</strong> the animation replays preserved evidence; it does not call IBM Bob live.</div>': '<div class="disclosure"><strong>Verified run:</strong> this animation replays preserved evidence; it does not call IBM Bob live.</div>',
+              'Choose a scenario, then run the recorded analysis.': 'Choose a scenario, then replay the analysis.',
+              '>View recorded evidence</button>': '>View evidence</button>',
+              '<strong id="modal-title">Recorded evidence</strong>': '<strong id="modal-title">Verification evidence</strong>',
+              'change: ["fail", "Failed"],': 'change: ["warn", "Known path broken"],',
+              'verify: ["fail", "Failed"]': 'verify: ["fail", "Rejected"]',
+              'RECORDED VERIFIED RUN — DEMO A': 'VERIFIED RUN — DEMO A',
+              'RECORDED VERIFIED RUN — DEMO B': 'VERIFIED RUN — DEMO B',
+              'Change witness               FAIL': 'Change witness               KNOWN PATH BROKEN',
+              'Deterministic verification   FAIL': 'Deterministic verification   REJECTED',
+              'emptyState.textContent = "Replaying recorded evidence…";': 'emptyState.textContent = "Replaying verified evidence…";',
+              'step.querySelector(".step-dot").textContent = state === "pass" ? "✓" : "×";': 'step.querySelector(".step-dot").textContent = state === "pass" ? "✓" : state === "warn" ? "!" : "×";'
+          }
+          for old, new in replacements.items():
+              if old not in s:
+                  raise SystemExit(f'missing expected text: {old}')
+              s = s.replace(old, new)
+          p.write_text(s)
+          PY
+      - name: Commit final polish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "docs: finalize public demo UX"
+          git push origin HEAD:public-demo-final-polish
