@@ -88,14 +88,14 @@
       text-decoration: none;
     }
 
-    main { padding: 42px 0 64px; }
+    main { padding: 30px 0 56px; }
 
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) minmax(300px, .7fr);
-      gap: 42px;
+      gap: 32px;
       align-items: end;
-      padding-bottom: 34px;
+      padding-bottom: 26px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -107,16 +107,16 @@
     }
 
     h1 {
-      font-size: clamp(38px, 6vw, 70px);
+      font-size: clamp(36px, 5vw, 60px);
       line-height: .98;
       letter-spacing: -0.055em;
-      margin: 0 0 18px;
+      margin: 0 0 14px;
       max-width: 800px;
     }
 
     .hero p {
       margin: 0;
-      font-size: clamp(17px, 2vw, 21px);
+      font-size: clamp(16px, 1.7vw, 19px);
       line-height: 1.5;
       color: #3e444a;
       max-width: 760px;
@@ -133,7 +133,7 @@
     .hero-note strong { color: var(--ink); }
 
     .workspace {
-      margin-top: 32px;
+      margin-top: 26px;
       display: grid;
       grid-template-columns: 320px minmax(0, 1fr);
       gap: 18px;
@@ -317,6 +317,12 @@
       color: var(--good);
     }
 
+    .step.warn .step-dot {
+      border-color: #d7bd7e;
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
     .step.fail .step-dot {
       border-color: #e0aaaa;
       background: var(--bad-bg);
@@ -347,6 +353,7 @@
     }
 
     .step.pass .step-status { color: var(--good); }
+    .step.warn .step-status { color: var(--warn); }
     .step.fail .step-status { color: var(--bad); }
 
     .result-area {
@@ -589,12 +596,12 @@
         <p>Normal CI tells you whether today still works. Roadmap Canary checks whether a committed future capability still has a demonstrated implementation path after a code change.</p>
       </div>
       <div class="hero-note">
-        <strong>Recorded demo</strong><br />
-        These are recorded, verified Roadmap Canary runs. No credentials or IBM Bob API key are required to inspect the evidence.
+        <strong>Verified replay</strong><br />
+        This page replays saved, verified Roadmap Canary runs. No credentials or IBM Bob API key are required.
       </div>
     </section>
 
-    <section class="workspace" aria-label="Recorded Roadmap Canary demo">
+    <section class="workspace" aria-label="Roadmap Canary demo">
       <aside class="sidebar">
         <div class="section-label">Repository</div>
         <div class="repo-box"><code>kawchar85/roadmap-canary-demo</code><span class="ok">✓</span></div>
@@ -602,7 +609,7 @@
         <div class="section-label">Future capability</div>
         <div class="cap-box"><code>Multiple payment providers</code></div>
 
-        <div class="section-label">Recorded scenarios</div>
+        <div class="section-label">Scenarios</div>
         <div class="scenario-list">
           <button class="scenario active" data-scenario="safe">
             <div class="scenario-title">Demo A <span class="tiny-tag">refactor</span></div>
@@ -621,9 +628,9 @@
             <h2 id="scenario-heading">Demo A — Provider API refactor</h2>
             <p><span id="change-ref">demo/path-changed-safe</span> · base main</p>
           </div>
-          <button class="run-btn" id="run-btn">Run recorded analysis</button>
+          <button class="run-btn" id="run-btn">Replay analysis</button>
         </div>
-        <div class="disclosure"><strong>Recorded verified run:</strong> the animation replays preserved evidence; it does not call IBM Bob live.</div>
+        <div class="disclosure"><strong>Verified run:</strong> this animation replays preserved evidence; it does not call IBM Bob live.</div>
 
         <div class="pipeline" id="pipeline">
           <div class="step" data-step="base">
@@ -649,7 +656,7 @@
         </div>
 
         <div class="result-area">
-          <div class="empty-state" id="empty-state">Choose a scenario, then run the recorded analysis.</div>
+          <div class="empty-state" id="empty-state">Choose a scenario, then replay the analysis.</div>
           <div class="result" id="result">
             <div class="verdict-line">
               <span class="verdict safe" id="verdict">PATH CHANGED - SAFE</span>
@@ -670,7 +677,7 @@
             </div>
 
             <div class="actions">
-              <button class="small-btn" id="evidence-btn">View recorded evidence</button>
+              <button class="small-btn" id="evidence-btn">View evidence</button>
               <a class="text-link" id="branch-link" href="#" target="_blank" rel="noreferrer">Open change branch ↗</a>
               <a class="text-link" href="https://github.com/kawchar85/roadmap-canary-demo/tree/main/.roadmap-canary/issue-1" target="_blank" rel="noreferrer">Open trusted Canary ↗</a>
             </div>
@@ -702,7 +709,7 @@
 
   <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <div class="modal-head"><strong id="modal-title">Recorded evidence</strong><button class="modal-close" id="modal-close" aria-label="Close">×</button></div>
+      <div class="modal-head"><strong id="modal-title">Verification evidence</strong><button class="modal-close" id="modal-close" aria-label="Close">×</button></div>
       <div class="modal-body"><pre id="modal-content"></pre></div>
     </div>
   </div>
@@ -717,7 +724,7 @@
         result: "The stored implementation path no longer fits the refactored provider API. IBM Bob produced a replacement candidate, and Roadmap Canary independently verified that the future capability remains viable inside the approved proof budget.",
         pipeline: {
           base: ["pass", "Passed"],
-          change: ["fail", "Failed"],
+          change: ["warn", "Known path broken"],
           bob: ["pass", "Candidate produced"],
           verify: ["pass", "Passed"]
         },
@@ -733,7 +740,7 @@
           ["New dependencies", "0 / 0", true]
         ],
         budgetCallout: "The architecture changed, but a small replacement proof still exists.",
-        evidence: `RECORDED VERIFIED RUN — DEMO A\n\nCapability: Multiple payment providers\nBase: main\nChange: demo/path-changed-safe\n\nBASE witness                 PASS\nChange witness               FAIL\nIBM Bob Rescue               CANDIDATE PRODUCED\nDeterministic verification   PASS\n\nProof budget\n  files changed              2 / 3\n  added lines                49 / 120\n  new dependencies           0 / 0\n\nResult: PATH CHANGED - SAFE\n\nInterpretation:\nThe old proof path broke after the provider API refactor, but Bob found another small path and the independent verifier accepted it.`,
+        evidence: `VERIFIED RUN — DEMO A\n\nCapability: Multiple payment providers\nBase: main\nChange: demo/path-changed-safe\n\nBASE witness                 PASS\nChange witness               KNOWN PATH BROKEN\nIBM Bob Rescue               CANDIDATE PRODUCED\nDeterministic verification   PASS\n\nProof budget\n  files changed              2 / 3\n  added lines                49 / 120\n  new dependencies           0 / 0\n\nResult: PATH CHANGED - SAFE\n\nInterpretation:\nThe old proof path broke after the provider API refactor, but Bob found another small path and the independent verifier accepted it.`,
         branch: "https://github.com/kawchar85/roadmap-canary-demo/tree/demo/path-changed-safe"
       },
       risk: {
@@ -744,9 +751,9 @@
         result: "Today’s Stripe behavior still works, and IBM Bob produced a functional replacement candidate. Roadmap Canary rejected it because preserving the committed future capability now required a materially broader change than the human-approved proof budget allows.",
         pipeline: {
           base: ["pass", "Passed"],
-          change: ["fail", "Failed"],
+          change: ["warn", "Known path broken"],
           bob: ["pass", "Candidate produced"],
-          verify: ["fail", "Failed"]
+          verify: ["fail", "Rejected"]
         },
         checks: [
           ["Existing tests", "Passed", true],
@@ -760,7 +767,7 @@
           ["New dependencies", "0 / 0", true]
         ],
         budgetCallout: "The future is not proven impossible. The previously cheap path has become materially more invasive.",
-        evidence: `RECORDED VERIFIED RUN — DEMO B\n\nCapability: Multiple payment providers\nBase: main\nChange: demo/roadmap-risk\n\nBASE witness                 PASS\nChange witness               FAIL\nIBM Bob Rescue               CANDIDATE PRODUCED\nDeterministic verification   FAIL\n\nFunctional checks            PASS\nProtected verifier inputs    UNCHANGED\n\nProof budget\n  files changed              6 / 3   FAIL\n  added lines                52 / 120\n  new dependencies           0 / 0\n\nResult: ROADMAP_RISK\n\nInterpretation:\nBob found working code, but the replacement path exceeded the approved change-size boundary. Roadmap Canary therefore refuses to treat the candidate as valid evidence.`,
+        evidence: `VERIFIED RUN — DEMO B\n\nCapability: Multiple payment providers\nBase: main\nChange: demo/roadmap-risk\n\nBASE witness                 PASS\nChange witness               KNOWN PATH BROKEN\nIBM Bob Rescue               CANDIDATE PRODUCED\nDeterministic verification   REJECTED\n\nFunctional checks            PASS\nProtected verifier inputs    UNCHANGED\n\nProof budget\n  files changed              6 / 3   FAIL\n  added lines                52 / 120\n  new dependencies           0 / 0\n\nResult: ROADMAP_RISK\n\nInterpretation:\nBob found working code, but the replacement path exceeded the approved change-size boundary. Roadmap Canary therefore refuses to treat the candidate as valid evidence.`,
         branch: "https://github.com/kawchar85/roadmap-canary-demo/tree/demo/roadmap-risk"
       }
     };
@@ -809,7 +816,7 @@
       runBtn.disabled = true;
       runBtn.textContent = "Replaying…";
       resetPipeline();
-      emptyState.textContent = "Replaying recorded evidence…";
+      emptyState.textContent = "Replaying verified evidence…";
       const data = scenarios[current];
       const order = ["base", "change", "bob", "verify"];
 
@@ -821,7 +828,7 @@
         await sleep(key === "bob" ? 650 : 460);
         step.classList.remove("running");
         step.classList.add(state);
-        step.querySelector(".step-dot").textContent = state === "pass" ? "✓" : "×";
+        step.querySelector(".step-dot").textContent = state === "pass" ? "✓" : state === "warn" ? "!" : "×";
         step.querySelector(".step-status").textContent = label;
       }
 
