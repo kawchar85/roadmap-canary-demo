@@ -1,10 +1,10 @@
 {
   "base_ref": "main",
-  "baseline_commit": "e6a3cc6864a610ead1cd5e801077568ba162ece2",
-  "witness_ref": "canary/multi-provider-witness-refreshed",
-  "witness_commit": "fd1c9f3a847a2f1451261425931a135c833c7602",
+  "baseline_commit": "56e34d54cbca1587d65482608998e207250ad72c",
+  "witness_ref": "origin/canary/multi-provider-witness-final",
+  "witness_commit": "17752e7daa413d4f4457a44d113212858fcd6a29",
   "verification": {
-    "workspace": "/private/var/folders/5x/3bp6xfmj3pq5d0_8gyn17ql00000gn/T/roadmap-canary-capture-idkynyx_/base",
+    "workspace": "/tmp/roadmap-canary-capture-9zeil62q/base",
     "patch_applied": true,
     "verification_passed": true,
     "commands": [
@@ -13,28 +13,28 @@
         "exit_code": 0,
         "stdout": "\nadded 54 packages in 2s\n",
         "stderr": "",
-        "duration_ms": 2116
+        "duration_ms": 1758
       },
       {
         "command": "npm test",
         "exit_code": 0,
-        "stdout": "\n> roadmap-canary-demo@0.1.0 test\n> vitest run\n\n\n RUN  v3.2.7 /private/var/folders/5x/3bp6xfmj3pq5d0_8gyn17ql00000gn/T/roadmap-canary-capture-idkynyx_/base\n\n \u2713 tests/payment-provider.contract.test.ts (2 tests) 3ms\n \u2713 tests/checkout.integration.test.ts (1 test) 11ms\n \u2713 tests/refund.integration.test.ts (1 test) 2ms\n\n Test Files  3 passed (3)\n      Tests  4 passed (4)\n   Start at  17:20:54\n   Duration  932ms (transform 218ms, setup 0ms, collect 266ms, tests 16ms, environment 0ms, prepare 584ms)\n\n",
+        "stdout": "\n> roadmap-canary-demo@0.1.0 test\n> vitest run\n\nRUN v3.2.7 /tmp/roadmap-canary-capture-9zeil62q/base\n\n✓ tests/payment-provider.contract.test.ts (2 tests)\n✓ tests/checkout.integration.test.ts (1 test)\n✓ tests/refund.integration.test.ts (1 test)\n\nTest Files 3 passed (3)\nTests 4 passed (4)\n",
         "stderr": "",
-        "duration_ms": 4324
+        "duration_ms": 1019
       },
       {
         "command": "npm run typecheck",
         "exit_code": 0,
         "stdout": "\n> roadmap-canary-demo@0.1.0 typecheck\n> tsc --noEmit\n\n",
         "stderr": "",
-        "duration_ms": 1125
+        "duration_ms": 1215
       },
       {
         "command": "npx vitest run --config vitest.canary.config.ts",
         "exit_code": 0,
-        "stdout": "\n RUN  v3.2.7 /private/var/folders/5x/3bp6xfmj3pq5d0_8gyn17ql00000gn/T/roadmap-canary-capture-idkynyx_/base\n\n \u2713 canary-tests/multi-provider.test.ts (7 tests) 2ms\n\n Test Files  1 passed (1)\n      Tests  7 passed (7)\n   Start at  17:20:57\n   Duration  678ms (transform 62ms, setup 0ms, collect 59ms, tests 2ms, environment 0ms, prepare 95ms)\n\n",
+        "stdout": "\nRUN v3.2.7 /tmp/roadmap-canary-capture-9zeil62q/base\n\n✓ canary-tests/multi-provider.test.ts (5 tests)\n\nTest Files 1 passed (1)\nTests 5 passed (5)\n",
         "stderr": "",
-        "duration_ms": 1924
+        "duration_ms": 1029
       }
     ],
     "protected_tests_unchanged": true,
