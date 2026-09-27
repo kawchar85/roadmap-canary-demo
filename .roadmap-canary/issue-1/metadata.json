@@ -1,9 +1,9 @@
 {
   "canary_id": "issue-1",
-  "baseline_commit": "e6a3cc6864a610ead1cd5e801077568ba162ece2",
-  "contract_hash": "739980e894fca24f8383897b27acc26a0cf11d69ca8a10163fa388c31b4f1731",
+  "baseline_commit": "56e34d54cbca1587d65482608998e207250ad72c",
+  "contract_hash": "892223a57c573ec3052450a5df5b48c62044edc54a3218bac67c86eaeea7d706",
   "witness_hash": "59442b11fa3762a3945f5eb6ccc357e1dffa91ac85819a32304d78d0e4f1c0de",
-  "created_at": "2026-09-27T11:20:58.616706+00:00",
+  "created_at": "2026-09-27T13:15:11.666238+00:00",
   "created_by": "human-approved-witness",
   "status": "valid"
 }
